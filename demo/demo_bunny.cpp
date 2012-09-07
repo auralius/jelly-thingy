@@ -7,11 +7,6 @@
  *****************************************************************************/
 int main(int argc, char *argv[])
 {
-    // Parameters
-    const int row = 5;
-    const int col = 5;
-	const int depth = 1;
-    double step = 0.01;
 
     // Simulation parameters
     CDeformableObject deform;
@@ -26,7 +21,7 @@ int main(int argc, char *argv[])
     rigidSphere.setPosition(-0.8, 0, 0);
     rigidSphere.setDiameter(0.6);
     rigidSphere.setVirtualStiffness(-1000.0);
-    rigidSphere.setVirtualDamping(-1);
+    rigidSphere.setVirtualDamping(0);
 
     CIntegrator integrator;
     integrator.addDeformableObject(&deform);

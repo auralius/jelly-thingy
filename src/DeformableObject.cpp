@@ -120,7 +120,7 @@ void CDeformableObject::updateNodes()
             mat forceByReturnSpring = (lt - l0) * mStiffness* 0.5;
             mat dampingForce = mDamping * *currentNode->getVelocity();
 
-            force = force +  ((mStiffness * (norm_lt - norm_l0)) * (lt / norm_lt)) + 
+            force = force +  ((mStiffness * (norm_lt - norm_l0 * norm_l0 / norm_lt)) * (lt / norm_lt)) + 
                     forceByReturnSpring + dampingForce;
         } // end for 
 

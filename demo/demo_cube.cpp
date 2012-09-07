@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
 
     CRigidSphere rigidSphere;
     rigidSphere.setPosition(-0.08, 0, 0);
-    rigidSphere.setDiameter(0.05);
+    rigidSphere.setDiameter(0.01);
     rigidSphere.setVirtualStiffness(-500);
     rigidSphere.setVirtualDamping(-0);
 
