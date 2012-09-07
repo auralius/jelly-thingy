@@ -21,3 +21,4 @@ Please consult the license of each library used in this project:
  - Lapack (http://www.netlib.org/lapack/)
  - Armadillo (http://arma.sourceforge.net/)
  - Freeglut (http://freeglut.sourceforge.net/)
+ - OpenMP (http://openmp.org/wp/)
