@@ -78,9 +78,6 @@ void CIntegrator::calculateInteractionForce(int index)
                 // Force by spring constant
                 double f = currentRigidSphere->getVirtualStiffness() * (virtualWallDist - ltNorm);                
                 force = f * (lt / ltNorm);
-
-                // Apply damping
-                force = force + *currentNode->getVelocity() * currentRigidSphere->getVirtualDamping();
                 
                 //force.print("f=");          
                 currentNode->setExternalForce(force);                
