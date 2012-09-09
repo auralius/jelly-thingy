@@ -117,7 +117,7 @@ glwGraphInit(GLint argc, char *argv[], char *title, GLfloat scale)
     /* Initialize GLUT and create a window */
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
-    glutInitWindowSize(400, 400);
+    glutInitWindowSize(600, 600);
     glutCreateWindow(title);
     glScalef(scale, scale, scale);
 
@@ -126,8 +126,6 @@ glwGraphInit(GLint argc, char *argv[], char *title, GLfloat scale)
 
     GLfloat light0_position[] = {200.0f, -100.0f, 200.0f, 0.0f };
 	GLfloat light1_position[] = {200.0f, -100.0f, -200.0f, 0.0f };
-	GLfloat light2_position[] = {-200.0f, -100.0f, -200.0f, 0.0f };
-    GLfloat light3_position[] = {-200.0f, -100.0f, 200.0f, 0.0f };
 
     glClearColor (0.5, 0.5, 0.5, 0.0);
     glShadeModel (GL_SMOOTH);
@@ -141,12 +139,9 @@ glwGraphInit(GLint argc, char *argv[], char *title, GLfloat scale)
 
     glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
 	glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
-	glLightfv(GL_LIGHT2, GL_POSITION, light2_position);
-    glLightfv(GL_LIGHT3, GL_POSITION, light2_position);
 
     glEnable(GL_LIGHT0);
 	glEnable(GL_LIGHT1);
-	glEnable(GL_LIGHT2);
 
     glColorMaterial(GL_FRONT, GL_DIFFUSE);
     glEnable(GL_COLOR_MATERIAL);

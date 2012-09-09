@@ -102,6 +102,7 @@ void CDeformableObject::render()
     // Are we rendering an OBJ file ?
     if (mUsingObjFile == true) {
         glPushMatrix();
+        glBegin(GL_TRIANGLES);
         for (unsigned int i = 0; i < mFaceIndex.size(); i = i + 3) {
             mat A = *mNodes.at(mFaceIndex.at(i))->getPosition();
             mat B = *mNodes.at(mFaceIndex.at(i + 1))->getPosition();
@@ -116,62 +117,64 @@ void CDeformableObject::render()
 
             glNormal3f(normal.at(0,0), normal.at(0,1), normal.at(0,2));
 
-            glBegin(GL_TRIANGLES);
+            //glBegin(GL_TRIANGLES);
             glVertex3f(A.at(0,0), A.at(0,1), A.at(0,2));
             glVertex3f(B.at(0,0), B.at(0,1), B.at(0,2));
             glVertex3f(C.at(0,0), C.at(0,1), C.at(0,2));
-            glEnd(); 
+            //glEnd(); 
         }
+        glEnd();
         glPopMatrix(); // end for
     } // end if
 
-    
-    // Draw triangulated lines
-    glPushMatrix();
+    else {
+        // Draw triangulated lines
+        glPushMatrix();
 
-    glColor4f(0.0, 0.0, 0.0, 0.75); // Black
+        glColor4f(0.0, 0.0, 0.0, 0.75); // Black
        
-    for (unsigned int i = 0; i < mNodes.size(); i++) {        
-        const mat *A = mNodes.at(i)->getPosition();
-        
-		if (mNodes.at(i)->surfaceNode() == true) { 
-
-			glBegin(GL_LINE_STRIP);   
-              
-			for (int j = 0; j < mNodes.at(i)->getNumberofConnectedNodes(); j++) {
-				const mat *B = mNodes.at(i)->getConnectedNodes(j)->getPosition();
-
-				if (mNodes.at(i)->getConnectedNodes(j)->surfaceNode() == true) {
-					glVertex3f(A->at(0,0), A->at(0,1), A->at(0,2));     
-					glVertex3f(B->at(0,0), B->at(0,1), B->at(0,2)); 
-				} // end if
-			}  //end for
-
-			glEnd();
-
-        } // end if
-	} // end for
-        
-    glPopMatrix();
-
-    // Draw a small sphere to representate a node
-    if (mCanDrawNodeAsSphere == true && mUsingObjFile == false) {
         for (unsigned int i = 0; i < mNodes.size(); i++) {        
             const mat *A = mNodes.at(i)->getPosition();
-
-		    if ( mNodes.at(i)->surfaceNode() == true) {
-			    glPushMatrix();
-
-                glColor4f(1.0, 1.0, 0.0, 100.0); // Yellow
-
-                glTranslated(A->at(0,0), A->at(0,1), A->at(0,2));
-                glutSolidSphere(mNodes.at(i)->getRadius(), 10, 10); 
         
-			    glPopMatrix();
-		    } // end if
-        
+	        if (mNodes.at(i)->surfaceNode() == true) { 
+
+		        glBegin(GL_LINE_STRIP);   
+              
+		        for (int j = 0; j < mNodes.at(i)->getNumberofConnectedNodes(); j++) {
+			        const mat *B = mNodes.at(i)->getConnectedNodes(j)->getPosition();
+
+			        if (mNodes.at(i)->getConnectedNodes(j)->surfaceNode() == true) {
+				        glVertex3f(A->at(0,0), A->at(0,1), A->at(0,2));     
+				        glVertex3f(B->at(0,0), B->at(0,1), B->at(0,2)); 
+			        } // end if
+		        }  //end for
+
+		        glEnd();
+
+            } // end if
         } // end for
-    } // end if
+        
+        glPopMatrix();
+
+        // Draw a small sphere to representate a node
+        if (mCanDrawNodeAsSphere == true && mUsingObjFile == false) {
+            for (unsigned int i = 0; i < mNodes.size(); i++) {        
+                const mat *A = mNodes.at(i)->getPosition();
+
+		        if ( mNodes.at(i)->surfaceNode() == true) {
+			        glPushMatrix();
+
+                    glColor4f(1.0, 1.0, 0.0, 100.0); // Yellow
+
+                    glTranslated(A->at(0,0), A->at(0,1), A->at(0,2));
+                    glutSolidSphere(mNodes.at(i)->getRadius(), 10, 10); 
+        
+			        glPopMatrix();
+		        } // end if
+        
+            } // end for
+        } // end if
+    } // end if - else
    
 }
 
