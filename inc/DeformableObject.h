@@ -59,10 +59,11 @@ public:
     void applyTriangularConnection();
     void render();
     void updateNodes();
-    void loadObjFile(char *fn);
+    int loadObjFile(char *fn);
     
 private:        
     void nodeTriangulation();
+    void calculateFaceNormal(mat &v1, mat &v2, mat &v3, mat &result);
 
     vector <CNode *> mNodes;
 
@@ -76,6 +77,7 @@ private:
     bool mUsingObjFile;
 
     vector <int> mFaceIndex;
+    
 };
 
 

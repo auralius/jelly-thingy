@@ -15,7 +15,10 @@ int main(int argc, char *argv[])
     deform.setMass(1);
     deform.setTimeStep(0.01);
 
-    deform.loadObjFile("bunny.obj");    
+    if (deform.loadObjFile("bunny.obj") == -1) {
+        printf("Error on loading OBJ file\n");
+        return -1;
+    }
 
     CRigidSphere rigidSphere;
     rigidSphere.setPosition(-0.8, 0, 0);

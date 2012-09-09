@@ -97,6 +97,84 @@ void CDeformableObject::applyTriangularConnection()
 // PROCESS
 ////////////////////////////////////////////////////////////////////////////////
 
+void CDeformableObject::render()
+{
+    // Are we rendering an OBJ file ?
+    if (mUsingObjFile == true) {
+        glPushMatrix();
+        for (unsigned int i = 0; i < mFaceIndex.size(); i = i + 3) {
+            mat A = *mNodes.at(mFaceIndex.at(i))->getPosition();
+            mat B = *mNodes.at(mFaceIndex.at(i + 1))->getPosition();
+            mat C = *mNodes.at(mFaceIndex.at(i + 2))->getPosition();
+
+            glColor4f(1.0, 1.0, 0.0, 0.75); // Yellow
+
+            mat normal;
+            normal.set_size(1,3);
+            calculateFaceNormal(A, B, C, normal);
+            //normal.print("normal=");
+
+            glNormal3f(normal.at(0,0), normal.at(0,1), normal.at(0,2));
+
+            glBegin(GL_TRIANGLES);
+            glVertex3f(A.at(0,0), A.at(0,1), A.at(0,2));
+            glVertex3f(B.at(0,0), B.at(0,1), B.at(0,2));
+            glVertex3f(C.at(0,0), C.at(0,1), C.at(0,2));
+            glEnd(); 
+        }
+        glPopMatrix(); // end for
+    } // end if
+
+    
+    // Draw triangulated lines
+    glPushMatrix();
+
+    glColor4f(0.0, 0.0, 0.0, 0.75); // Black
+       
+    for (unsigned int i = 0; i < mNodes.size(); i++) {        
+        const mat *A = mNodes.at(i)->getPosition();
+        
+		if (mNodes.at(i)->surfaceNode() == true) { 
+
+			glBegin(GL_LINE_STRIP);   
+              
+			for (int j = 0; j < mNodes.at(i)->getNumberofConnectedNodes(); j++) {
+				const mat *B = mNodes.at(i)->getConnectedNodes(j)->getPosition();
+
+				if (mNodes.at(i)->getConnectedNodes(j)->surfaceNode() == true) {
+					glVertex3f(A->at(0,0), A->at(0,1), A->at(0,2));     
+					glVertex3f(B->at(0,0), B->at(0,1), B->at(0,2)); 
+				} // end if
+			}  //end for
+
+			glEnd();
+
+        } // end if
+	} // end for
+        
+    glPopMatrix();
+
+    // Draw a small sphere to representate a node
+    if (mCanDrawNodeAsSphere == true && mUsingObjFile == false) {
+        for (unsigned int i = 0; i < mNodes.size(); i++) {        
+            const mat *A = mNodes.at(i)->getPosition();
+
+		    if ( mNodes.at(i)->surfaceNode() == true) {
+			    glPushMatrix();
+
+                glColor4f(1.0, 1.0, 0.0, 100.0); // Yellow
+
+                glTranslated(A->at(0,0), A->at(0,1), A->at(0,2));
+                glutSolidSphere(mNodes.at(i)->getRadius(), 10, 10); 
+        
+			    glPopMatrix();
+		    } // end if
+        
+        } // end for
+    } // end if
+   
+}
+
 void CDeformableObject::updateNodes()
 
 {    
@@ -145,12 +223,13 @@ void CDeformableObject::updateNodes()
     } // end for
 }
 
-void CDeformableObject::loadObjFile(char *fn)
+int CDeformableObject::loadObjFile(char *fn)
 {    
     ifstream objFile (fn);
 
+    // Handle error on opening the file
     if (objFile.is_open() == false)        
-        return;
+        return - 1;
 
     string line;
     float *vertexBuffer = NULL;
@@ -198,11 +277,12 @@ void CDeformableObject::loadObjFile(char *fn)
 			vertexNumber[1] -= 1;										// OBJ file starts counting from 1
 			vertexNumber[2] -= 1;	
 
-            // Keep face index so we can draw them later
+            // Keep face index so we can draw them later, store them in 1D vector sequentially
             mFaceIndex.push_back(vertexNumber[0]);
             mFaceIndex.push_back(vertexNumber[1]);
             mFaceIndex.push_back(vertexNumber[2]);
 
+            // Build connections between 2 nodes based on face data
             mNodes.at(vertexNumber[0])->addConnection(mNodes.at(vertexNumber[1]));
             mNodes.at(vertexNumber[1])->addConnection(mNodes.at(vertexNumber[0]));
 
@@ -219,6 +299,8 @@ void CDeformableObject::loadObjFile(char *fn)
     free(vertexBuffer);
 
     mUsingObjFile = true;
+
+    return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -310,74 +392,17 @@ void CDeformableObject::nodeTriangulation()
     }
 }
 
-void CDeformableObject::render()
+void CDeformableObject::calculateFaceNormal(mat &v1, mat &v2, mat &v3, mat &result)
 {
-    // Are we rendering an OBJ file ?
-    if (mUsingObjFile == true) {
-        glPushMatrix();
-
-        for (unsigned int i = 0; i < mFaceIndex.size(); i = i + 3) {
-            mat A = *mNodes.at(mFaceIndex.at(i))->getPosition();
-            mat B = *mNodes.at(mFaceIndex.at(i + 1))->getPosition();
-            mat C = *mNodes.at(mFaceIndex.at(i + 2))->getPosition();
-
-            glColor4f(1.0, 1.0, 0.0, 0.75); // Yellow
-            glBegin(GL_TRIANGLES);
-            glVertex3f(A.at(0,0), A.at(0,1), A.at(0,2));
-            glVertex3f(B.at(0,0), B.at(0,1), B.at(0,2));
-            glVertex3f(C.at(0,0), C.at(0,1), C.at(0,2));
-            glEnd(); 
-        }
-
-        glPopMatrix(); // end for
-    } // end if
-
-    
-    // Draw triangulated lines
-    glPushMatrix();
-
-    glColor4f(0.0, 0.0, 0.0, 0.75); // Black
-       
-    for (unsigned int i = 0; i < mNodes.size(); i++) {        
-        const mat *A = mNodes.at(i)->getPosition();
-        
-		if (mNodes.at(i)->surfaceNode() == true) { 
-
-			glBegin(GL_LINE_STRIP);   
-              
-			for (int j = 0; j < mNodes.at(i)->getNumberofConnectedNodes(); j++) {
-				const mat *B = mNodes.at(i)->getConnectedNodes(j)->getPosition();
-
-				if (mNodes.at(i)->getConnectedNodes(j)->surfaceNode() == true) {
-					glVertex3f(A->at(0,0), A->at(0,1), A->at(0,2));     
-					glVertex3f(B->at(0,0), B->at(0,1), B->at(0,2)); 
-				} // end if
-			}  //end for
-
-			glEnd();
-
-        } // end if
-	} // end for
-        
-    glPopMatrix();
-
-    // Draw a small sphere to representate a node
-    if (mCanDrawNodeAsSphere == true && mUsingObjFile == false) {
-        for (unsigned int i = 0; i < mNodes.size(); i++) {        
-            const mat *A = mNodes.at(i)->getPosition();
-
-		    if ( mNodes.at(i)->surfaceNode() == true) {
-			    glPushMatrix();
-
-                glColor4f(1.0, 1.0, 0.0, 100.0); // Yellow
-
-                glTranslated(A->at(0,0), A->at(0,1), A->at(0,2));
-                glutSolidSphere(mNodes.at(i)->getRadius(), 10, 10); 
-        
-			    glPopMatrix();
-		    } // end if
-        
-        } // end for
-    } // end if
-   
+    // Calculate vectors between 2 vertices
+    mat d1 = v1 - v2;
+    mat d2 = v2 - v3;
+ 
+    // Get cross product of vectors
+    mat n = cross(d1, d2);
+ 
+    // Normalise final vector
+    result = n / norm(n, 2);
 }
+
+
