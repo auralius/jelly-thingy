@@ -125,9 +125,13 @@ glwGraphInit(GLint argc, char *argv[], char *title, GLfloat scale)
     glutCreateWindow(title);
     glScalef(scale, scale, scale);
 
-    GLfloat diffuseMaterial[4] = { 0.5, 0.5, 0.5, 1.0 };
-    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-    GLfloat light_position0[] = { 0.0, 20.0, -20.0, 0.0 };
+    GLfloat diffuseMaterial[4] = {0.5, 0.5, 0.5, 1.0};
+    GLfloat mat_specular[] = {1.0, 1.0, 1.0, 1.0};
+
+    GLfloat light0_position[] = {200.0f, -100.0f, 200.0f, 0.0f };
+	GLfloat light1_position[] = {200.0f, -100.0f, -200.0f, 0.0f };
+	GLfloat light2_position[] = {-200.0f, -100.0f, -200.0f, 0.0f };
+    GLfloat light3_position[] = {-200.0f, -100.0f, 200.0f, 0.0f };
 
     glClearColor (0.5, 0.5, 0.5, 0.0);
     glShadeModel (GL_SMOOTH);
@@ -135,9 +139,17 @@ glwGraphInit(GLint argc, char *argv[], char *title, GLfloat scale)
     glMaterialfv(GL_FRONT, GL_DIFFUSE, diffuseMaterial);
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
     glMaterialf(GL_FRONT, GL_SHININESS, 25.0);
-    glLightfv(GL_LIGHT0, GL_POSITION, light_position0);
+
     glEnable(GL_LIGHTING);
+
+    glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
+	glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
+	glLightfv(GL_LIGHT2, GL_POSITION, light2_position);
+    glLightfv(GL_LIGHT3, GL_POSITION, light2_position);
+
     glEnable(GL_LIGHT0);
+	glEnable(GL_LIGHT1);
+	glEnable(GL_LIGHT2);
 
     glColorMaterial(GL_FRONT, GL_DIFFUSE);
     glEnable(GL_COLOR_MATERIAL);

@@ -321,7 +321,7 @@ void CDeformableObject::render()
             mat B = *mNodes.at(mFaceIndex.at(i + 1))->getPosition();
             mat C = *mNodes.at(mFaceIndex.at(i + 2))->getPosition();
 
-            glColor4f(1.0, 1.0, 0.0, 0.75);
+            glColor4f(1.0, 1.0, 0.0, 0.75); // Yellow
             glBegin(GL_TRIANGLES);
             glVertex3f(A.at(0,0), A.at(0,1), A.at(0,2));
             glVertex3f(B.at(0,0), B.at(0,1), B.at(0,2));
@@ -336,7 +336,7 @@ void CDeformableObject::render()
     // Draw triangulated lines
     glPushMatrix();
 
-    glColor4f(0.0, 0.0, 0.0, 0.75);
+    glColor4f(0.0, 0.0, 0.0, 0.75); // Black
        
     for (unsigned int i = 0; i < mNodes.size(); i++) {        
         const mat *A = mNodes.at(i)->getPosition();
@@ -368,6 +368,8 @@ void CDeformableObject::render()
 
 		    if ( mNodes.at(i)->surfaceNode() == true) {
 			    glPushMatrix();
+
+                glColor4f(1.0, 1.0, 0.0, 100.0); // Yellow
 
                 glTranslated(A->at(0,0), A->at(0,1), A->at(0,2));
                 glutSolidSphere(mNodes.at(i)->getRadius(), 10, 10); 

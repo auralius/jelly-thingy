@@ -73,7 +73,7 @@ void CRigidSphere::render()
 
     glColor4f(0.0, 1.0, 0.0, 0.75);
     glTranslated(mPos.at(0,0), mPos.at(0,1), mPos.at(0,2));
-	glutSolidSphere(mDiameter * 0.5, 20, 20); 
+	glutSolidSphere(mDiameter * 0.5, 10, 10); 
         
 	glPopMatrix();
 
