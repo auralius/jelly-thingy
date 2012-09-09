@@ -3,12 +3,8 @@
 /******************************************************************************
  * Data declaration
  *****************************************************************************/
-static POINT3D dataBuffer[256];
-GLint nRow;
-GLint nCol;
-
-CDeformableObject * deformableObject;
-CRigidSphere * rigidSphere;
+static CDeformableObject * deformableObject;
+static CRigidSphere * rigidSphere;
 static GLfloat ballSize = 0.004f;
 static double stepShift = 0.001;
 
@@ -135,6 +131,7 @@ glwGraphInit(GLint argc, char *argv[], char *title, GLfloat scale)
 
     glClearColor (0.5, 0.5, 0.5, 0.0);
     glShadeModel (GL_SMOOTH);
+    glFrontFace(GL_CCW);
     glEnable(GL_DEPTH_TEST);
     glMaterialfv(GL_FRONT, GL_DIFFUSE, diffuseMaterial);
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
