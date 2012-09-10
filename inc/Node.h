@@ -25,6 +25,7 @@ public:
 
     // Set
     void setInitialPosition(double x, double y, double z);
+    void setInitialPosition(mat &p);
     void setPosition(double x, double y, double z);
     void setPosition(mat &p);
     void setVelocity(mat &v);

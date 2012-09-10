@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
     deform.setMass(1);
     deform.setTimeStep(0.01);
 
-    if (deform.loadObjFile2("bunny.obj") == -1) {
+    if (deform.loadObjFile2("box.obj") == -1) {
         printf("Error on loading OBJ file\n");
         return -1;
     }

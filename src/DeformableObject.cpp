@@ -1,6 +1,7 @@
 #include "DeformableObject.h"
 
 
+
 CDeformableObject::CDeformableObject(void)
 {
     mUsingObjFile = false;
@@ -104,14 +105,14 @@ void CDeformableObject::render()
     if (mUsingObjFile == true) {
         glPushMatrix();
         glBegin(GL_TRIANGLES);
-        for (unsigned int i = 0; i < mFaceIndex.size(); i = i + 3) {
+        for (unsigned int i = 0; i < mFaceIndex.size(); i = i + 3) {     
             mat A = *mNodes.at(mFaceIndex.at(i))->getPosition();
             mat B = *mNodes.at(mFaceIndex.at(i + 1))->getPosition();
             mat C = *mNodes.at(mFaceIndex.at(i + 2))->getPosition();
 
-            A.print("A=");
+            /*A.print("A=");
             B.print("B=");
-            C.print("C=");
+            C.print("C=");*/
 
             glColor4f(1.0, 1.0, 0.0, 0.75); // Yellow
 
@@ -324,11 +325,17 @@ int CDeformableObject::loadObjFile2(char *fn)
 
     for (int i = 0; i < mModel->numvertices; i++) {
          CNode *node = new CNode;
-         node->setInitialPosition(mModel->vertices[totalConnectedPoints * 3],
-				mModel->vertices[totalConnectedPoints * 3 + 1], 
-				mModel->vertices[totalConnectedPoints * 3 + 2]);
+         
+         mat pos(1,3);
+         pos(0,0) = mModel->vertices[totalConnectedPoints * 3];
+         pos(0,1) = mModel->vertices[totalConnectedPoints * 3 + 1];
+         pos(0,2) = mModel->vertices[totalConnectedPoints * 3 + 2];
 
-          printf("%f %f %f\n", mModel->vertices[totalConnectedPoints * 3], mModel->vertices[totalConnectedPoints * 3 + 1], mModel->vertices[totalConnectedPoints * 3 + 2]);
+         //pos.print("pos=");
+
+         node->setInitialPosition(pos);
+
+         //printf("%f %f %f\n", mModel->vertices[totalConnectedPoints * 3], mModel->vertices[totalConnectedPoints * 3 + 1], mModel->vertices[totalConnectedPoints * 3 + 2]);
 
          mNodes.push_back(node);
          totalConnectedPoints = totalConnectedPoints + 1;
@@ -339,17 +346,20 @@ int CDeformableObject::loadObjFile2(char *fn)
         mFaceIndex.push_back(mModel->triangles[i].vindices[1] - 1);
         mFaceIndex.push_back(mModel->triangles[i].vindices[2] - 1);
 
-        printf("%i %i %i\n", mModel->triangles[i].vindices[0], mModel->triangles[i].vindices[1], mModel->triangles[i].vindices[2]);
+        //printf("%i %i %i\n", mModel->triangles[i].vindices[0], mModel->triangles[i].vindices[1], mModel->triangles[i].vindices[2]);
+        int one = mModel->triangles[i].vindices[0] - 1;
+        int two = mModel->triangles[i].vindices[1] - 1;
+        int three = mModel->triangles[i].vindices[2] - 1;
 
         // Build connections between 2 nodes based on face data
-        mNodes.at(mModel->triangles[i].vindices[0] - 1)->addConnection(mNodes.at(mModel->triangles->vindices[1] - 1));
-        mNodes.at(mModel->triangles[i].vindices[1] - 1)->addConnection(mNodes.at(mModel->triangles->vindices[0] - 1));
+        mNodes.at(one)->addConnection(mNodes.at(two));
+        mNodes.at(two)->addConnection(mNodes.at(one));
 
-        mNodes.at(mModel->triangles[i].vindices[1] - 1)->addConnection(mNodes.at(mModel->triangles[i].vindices[2] - 1));
-        mNodes.at(mModel->triangles[i].vindices[2] - 1)->addConnection(mNodes.at(mModel->triangles[i].vindices[1] - 1));
+        mNodes.at(two)->addConnection(mNodes.at(three));
+        mNodes.at(three)->addConnection(mNodes.at(two));
 
-        mNodes.at(mModel->triangles[i].vindices[0] - 1)->addConnection(mNodes.at(mModel->triangles[i].vindices[2] - 1));
-        mNodes.at(mModel->triangles[i].vindices[2] - 1)->addConnection(mNodes.at(mModel->triangles[i].vindices[0] - 1));
+        mNodes.at(one)->addConnection(mNodes.at(three));
+        mNodes.at(three)->addConnection(mNodes.at(one));
     }
 
     mUsingObjFile = true;

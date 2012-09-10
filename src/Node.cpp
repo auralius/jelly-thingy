@@ -42,6 +42,12 @@ void CNode::setInitialPosition(double x, double y, double z)
     mPos(0, 2) =  z;    
 }
 
+void CNode::setInitialPosition(mat &p)
+{
+    mInitialPos = p;
+    mPos = p;
+}
+
 void CNode::setPosition(double x, double y, double z)
 {
     mPos(0, 0) =  x;
