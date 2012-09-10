@@ -2,7 +2,7 @@
 #include <math.h>
 #include "Texture.h"
 #include <windows.h>
-#include <GL/gl.h>
+#include "freeglut.h"
 #include "glm.h"
 
 

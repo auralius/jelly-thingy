@@ -257,10 +257,14 @@ int glmFindOrAddTexture(GLMmodel* model, char* name,mycallback *call)
         if (!strcmp(model->textures[i].name, numefis))
             return i;
     }
-	char afis[80];
+	char afis[180];
 	sprintf(afis,"Loading Textures (%s )...",name);
-	int procent = ((float)((float)model->numtextures*30/total_textures)/100)*(call->end-call->start)+call->start;
-	if (call) call->loadcallback(procent,afis); // textures represent 30% from the model (just saying :))
+	
+	if (call) 
+	{
+		int procent = ((float)((float)model->numtextures*30/total_textures)/100)*(call->end-call->start)+call->start;
+		call->loadcallback(procent,afis); // textures represent 30% from the model (just saying :))		
+	}
 	if (strstr(name,":\\"))
 	{
 		filename = (char*)malloc(sizeof(char) * (strlen(name) + 1));
@@ -425,7 +429,7 @@ glmReadMTL(GLMmodel* model, char* name, mycallback *call)
             free(filename);
             if(strncmp(buf, "map_Kd", 6) == 0) 
 			{
-				char afis[80];
+				char afis[180];
 				sprintf(afis,"Loading Textures (%s)...",textura);				
                 model->materials[nummaterials].IDTextura = glmFindOrAddTexture(model, textura,call);
                 free(textura);
