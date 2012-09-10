@@ -15,14 +15,16 @@ int main(int argc, char *argv[])
     deform.setMass(1);
     deform.setTimeStep(0.01);
 
-    if (deform.loadObjFile("bunny.obj") == -1) {
+    if (deform.loadObjFile2("bunny.obj") == -1) {
         printf("Error on loading OBJ file\n");
         return -1;
     }
 
+    deform.getNodes(0)->setFixed(true);
+
     CRigidSphere rigidSphere;
-    rigidSphere.setPosition(-0.8, 0, 0);
-    rigidSphere.setDiameter(0.6);
+    rigidSphere.setPosition(-80, 0, 0);
+    rigidSphere.setDiameter(30);
     rigidSphere.setVirtualStiffness(-1000.0);
     rigidSphere.setVirtualDamping(0);
 
@@ -32,7 +34,7 @@ int main(int argc, char *argv[])
     integrator.execSimThread();
 
     // Prepare graphic thingy
-    glwSetRigidSphereStep(0.005);
+    glwSetRigidSphereStep(1);
     glwDeformableObjectToDraw(&deform);
     glwRigidSphereToDraw(&rigidSphere);    
     glwGraphInit(argc, argv, "Deformable Object");    

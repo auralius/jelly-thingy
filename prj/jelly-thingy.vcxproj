@@ -11,21 +11,26 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\ext\glm.h" />
+    <ClInclude Include="..\ext\Texture.h" />
+    <ClInclude Include="..\ext\zpr.h" />
     <ClInclude Include="..\inc\DeformableObject.h" />
     <ClInclude Include="..\inc\GeneralConfig.h" />
     <ClInclude Include="..\inc\GLWindow.h" />
     <ClInclude Include="..\inc\Integrator.h" />
     <ClInclude Include="..\inc\Node.h" />
     <ClInclude Include="..\inc\RigidSphere.h" />
-    <ClInclude Include="..\inc\zpr.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\ext\glm.cpp" />
+    <ClCompile Include="..\ext\glmimg.cpp" />
+    <ClCompile Include="..\ext\Texture.cpp" />
+    <ClCompile Include="..\ext\zpr.c" />
     <ClCompile Include="..\src\DeformableObject.cpp" />
     <ClCompile Include="..\src\GLWindow.cpp" />
     <ClCompile Include="..\src\Integrator.cpp" />
     <ClCompile Include="..\src\Node.cpp" />
     <ClCompile Include="..\src\RigidSphere.cpp" />
-    <ClCompile Include="..\src\zpr.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{52A2A1E2-4516-4418-9D66-F1D67287DE4A}</ProjectGuid>
@@ -71,7 +76,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../inc;../GL;../armadillo-3.2.4/include;../cgal/include;../cgal/auxiliary/gmp/include;../boost_1_47</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../inc;../GL;../armadillo-3.2.4/include;../cgal/include;../cgal/auxiliary/gmp/include;../boost_1_47;../ext</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
@@ -97,7 +102,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../inc;../GL;../armadillo-3.2.4/include;../cgal/include;../cgal/auxiliary/gmp/include;../boost_1_47</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../inc;../GL;../armadillo-3.2.4/include;../cgal/include;../cgal/auxiliary/gmp/include;../boost_1_47;../ext</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>

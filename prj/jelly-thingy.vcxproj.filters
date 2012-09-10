@@ -7,6 +7,9 @@
     <Filter Include="Headers">
       <UniqueIdentifier>{05d271c8-1f40-40d8-95bb-e152a85b1a69}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ext">
+      <UniqueIdentifier>{19780504-ec1e-4d71-9d50-ab0642d8310d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\inc\DeformableObject.h">
@@ -27,8 +30,14 @@
     <ClInclude Include="..\inc\RigidSphere.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\inc\zpr.h">
-      <Filter>Headers</Filter>
+    <ClInclude Include="..\ext\glm.h">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ext\Texture.h">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ext\zpr.h">
+      <Filter>ext</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -47,8 +56,17 @@
     <ClCompile Include="..\src\RigidSphere.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\zpr.c">
-      <Filter>Sources</Filter>
+    <ClCompile Include="..\ext\glm.cpp">
+      <Filter>ext</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ext\glmimg.cpp">
+      <Filter>ext</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ext\Texture.cpp">
+      <Filter>ext</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ext\zpr.c">
+      <Filter>ext</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

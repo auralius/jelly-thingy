@@ -18,7 +18,8 @@
 #include "CGAL/Triangulation_vertex_base_with_info_3.h"
 
 
-#include "../gl/freeglut.h"
+#include "freeglut.h"
+#include "glm.h"
 
 #ifdef WIN32
 #include <windows.h>
@@ -60,6 +61,7 @@ public:
     void render();
     void updateNodes();
     int loadObjFile(char *fn);
+    int loadObjFile2(char *fn);
     
 private:        
     void nodeTriangulation();
@@ -78,6 +80,7 @@ private:
 
     vector <int> mFaceIndex;
     
+    GLMmodel* mModel;
 };
 
 

@@ -6,6 +6,7 @@ CDeformableObject::CDeformableObject(void)
     mUsingObjFile = false;
     mRunning = true;
     mCanDrawNodeAsSphere = true;
+    mModel = NULL;
 }
 
 CDeformableObject::~CDeformableObject(void)
@@ -107,6 +108,10 @@ void CDeformableObject::render()
             mat A = *mNodes.at(mFaceIndex.at(i))->getPosition();
             mat B = *mNodes.at(mFaceIndex.at(i + 1))->getPosition();
             mat C = *mNodes.at(mFaceIndex.at(i + 2))->getPosition();
+
+            A.print("A=");
+            B.print("B=");
+            C.print("C=");
 
             glColor4f(1.0, 1.0, 0.0, 0.75); // Yellow
 
@@ -243,7 +248,6 @@ int CDeformableObject::loadObjFile(char *fn)
     objFile.seekg(0, ios::beg);        
 
     vertexBuffer = (float*) malloc (fileSize);	
-    long index = 0;
 
     while (! objFile.eof()) {
 		getline(objFile,line);
@@ -258,11 +262,11 @@ int CDeformableObject::loadObjFile(char *fn)
 				&vertexBuffer[totalConnectedPoints+2]);
 
             CNode *node = new CNode;
-            node[index].setInitialPosition(vertexBuffer[totalConnectedPoints],
+            node->setInitialPosition(vertexBuffer[totalConnectedPoints],
 				vertexBuffer[totalConnectedPoints+1], 
 				vertexBuffer[totalConnectedPoints+2]);
 
-            mNodes.push_back(&node[index]);
+            mNodes.push_back(node);
         
             totalConnectedPoints += 3;
         } // end if
@@ -300,6 +304,53 @@ int CDeformableObject::loadObjFile(char *fn)
 
     objFile.close();	
     free(vertexBuffer);
+
+    mUsingObjFile = true;
+
+    return 0;
+}
+
+int CDeformableObject::loadObjFile2(char *fn)
+{
+    mModel = glmReadOBJ(fn);
+
+    if (mModel == NULL)
+        return -1;
+
+    /*glmFacetNormals(mModel);        
+    glmVertexNormals(mModel, 90.0);*/
+
+    long totalConnectedPoints = 1;
+
+    for (int i = 0; i < mModel->numvertices; i++) {
+         CNode *node = new CNode;
+         node->setInitialPosition(mModel->vertices[totalConnectedPoints * 3],
+				mModel->vertices[totalConnectedPoints * 3 + 1], 
+				mModel->vertices[totalConnectedPoints * 3 + 2]);
+
+          printf("%f %f %f\n", mModel->vertices[totalConnectedPoints * 3], mModel->vertices[totalConnectedPoints * 3 + 1], mModel->vertices[totalConnectedPoints * 3 + 2]);
+
+         mNodes.push_back(node);
+         totalConnectedPoints = totalConnectedPoints + 1;
+    }
+
+    for (int i = 0; i < mModel->numtriangles; i++) {
+        mFaceIndex.push_back(mModel->triangles[i].vindices[0] - 1);
+        mFaceIndex.push_back(mModel->triangles[i].vindices[1] - 1);
+        mFaceIndex.push_back(mModel->triangles[i].vindices[2] - 1);
+
+        printf("%i %i %i\n", mModel->triangles[i].vindices[0], mModel->triangles[i].vindices[1], mModel->triangles[i].vindices[2]);
+
+        // Build connections between 2 nodes based on face data
+        mNodes.at(mModel->triangles[i].vindices[0] - 1)->addConnection(mNodes.at(mModel->triangles->vindices[1] - 1));
+        mNodes.at(mModel->triangles[i].vindices[1] - 1)->addConnection(mNodes.at(mModel->triangles->vindices[0] - 1));
+
+        mNodes.at(mModel->triangles[i].vindices[1] - 1)->addConnection(mNodes.at(mModel->triangles[i].vindices[2] - 1));
+        mNodes.at(mModel->triangles[i].vindices[2] - 1)->addConnection(mNodes.at(mModel->triangles[i].vindices[1] - 1));
+
+        mNodes.at(mModel->triangles[i].vindices[0] - 1)->addConnection(mNodes.at(mModel->triangles[i].vindices[2] - 1));
+        mNodes.at(mModel->triangles[i].vindices[2] - 1)->addConnection(mNodes.at(mModel->triangles[i].vindices[0] - 1));
+    }
 
     mUsingObjFile = true;
 
