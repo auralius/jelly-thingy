@@ -1,0 +1,18 @@
+[Buildset]
+BuildItems=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x01\x00\x00\x00\x18\x00j\x00e\x00l\x00l\x00y\x00-\x00t\x00h\x00i\x00n\x00g\x00y)
+
+[CMake]
+Build Directory Count=1
+Current Build Directory Index=0
+ProjectRootRelative=./
+
+[CMake][CMake Build Directory 0]
+Build Directory Path=file:///home/auralius/polybox/GITHUB/jelly-thingy/build
+Build Type=Debug
+CMake Binary=file:///usr/bin/cmake
+Environment Profile=
+Extra Arguments=
+Install Directory=
+
+[Project]
+VersionControlSupport=kdevgit
