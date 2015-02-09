@@ -53,7 +53,11 @@
 #include <windows.h>
 #endif
 
+#ifdef WIN32
 #include "../gl/freeglut.h"
+#else
+#include <freeglut.h>
+#endif
 
 #ifdef __cplusplus
 extern "C"

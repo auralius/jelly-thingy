@@ -14,7 +14,12 @@
 
 #include <vector>
 #include "armadillo"
+
+#ifdef WIN32
 #include "../gl/freeglut.h"
+#else
+#include <freeglut.h>
+#endif
 
 using namespace arma;
 using namespace std;
