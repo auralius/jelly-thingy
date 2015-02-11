@@ -7,7 +7,6 @@ CDeformableObject::CDeformableObject(void)
     mUsingObjFile = false;
     mRunning = true;
     mCanDrawNodeAsSphere = true;
-    mModel = NULL;
 }
 
 CDeformableObject::~CDeformableObject(void)
@@ -305,62 +304,6 @@ int CDeformableObject::loadObjFile(char *fn)
 
     objFile.close();	
     free(vertexBuffer);
-
-    mUsingObjFile = true;
-
-    return 0;
-}
-
-int CDeformableObject::loadObjFile2(char *fn)
-{
-    mModel = glmReadOBJ(fn);
-
-    if (mModel == NULL)
-        return -1;
-
-    /*glmFacetNormals(mModel);        
-    glmVertexNormals(mModel, 90.0);*/
-
-    long totalConnectedPoints = 1;
-
-    for (int i = 0; i < mModel->numvertices; i++) {
-         CNode *node = new CNode;
-         
-         mat pos(1,3);
-         pos(0,0) = mModel->vertices[totalConnectedPoints * 3];
-         pos(0,1) = mModel->vertices[totalConnectedPoints * 3 + 1];
-         pos(0,2) = mModel->vertices[totalConnectedPoints * 3 + 2];
-
-         //pos.print("pos=");
-
-         node->setInitialPosition(pos);
-
-         //printf("%f %f %f\n", mModel->vertices[totalConnectedPoints * 3], mModel->vertices[totalConnectedPoints * 3 + 1], mModel->vertices[totalConnectedPoints * 3 + 2]);
-
-         mNodes.push_back(node);
-         totalConnectedPoints = totalConnectedPoints + 1;
-    }
-
-    for (int i = 0; i < mModel->numtriangles; i++) {
-        mFaceIndex.push_back(mModel->triangles[i].vindices[0] - 1);
-        mFaceIndex.push_back(mModel->triangles[i].vindices[1] - 1);
-        mFaceIndex.push_back(mModel->triangles[i].vindices[2] - 1);
-
-        //printf("%i %i %i\n", mModel->triangles[i].vindices[0], mModel->triangles[i].vindices[1], mModel->triangles[i].vindices[2]);
-        int one = mModel->triangles[i].vindices[0] - 1;
-        int two = mModel->triangles[i].vindices[1] - 1;
-        int three = mModel->triangles[i].vindices[2] - 1;
-
-        // Build connections between 2 nodes based on face data
-        mNodes.at(one)->addConnection(mNodes.at(two));
-        mNodes.at(two)->addConnection(mNodes.at(one));
-
-        mNodes.at(two)->addConnection(mNodes.at(three));
-        mNodes.at(three)->addConnection(mNodes.at(two));
-
-        mNodes.at(one)->addConnection(mNodes.at(three));
-        mNodes.at(three)->addConnection(mNodes.at(one));
-    }
 
     mUsingObjFile = true;
 

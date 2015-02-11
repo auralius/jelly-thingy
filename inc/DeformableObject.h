@@ -19,7 +19,6 @@
 
 
 #include "freeglut.h"
-#include "glm.h"
 
 #ifdef WIN32
 #include <windows.h>
@@ -61,7 +60,6 @@ public:
     void render();
     void updateNodes();
     int loadObjFile(char *fn);
-    int loadObjFile2(char *fn);
     
 private:        
     void nodeTriangulation();
@@ -80,7 +78,6 @@ private:
 
     vector <int> mFaceIndex;
     
-    GLMmodel* mModel;
 };
 
 
