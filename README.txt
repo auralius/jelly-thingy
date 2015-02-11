@@ -22,3 +22,8 @@ Please consult the license of each library used in this project:
  - Armadillo (http://arma.sourceforge.net/)
  - Freeglut (http://freeglut.sourceforge.net/)
  - OpenMP (http://openmp.org/wp/)
+
+Watch the Youtube videos:
+https://www.youtube.com/watch?v=vh8eXlw-iD8
+https://www.youtube.com/watch?v=i1wcW22sPDI
+https://www.youtube.com/watch?v=SKecr3sE-7c
