@@ -8,11 +8,40 @@ ProjectRootRelative=./
 
 [CMake][CMake Build Directory 0]
 Build Directory Path=file:///home/auralius/polybox/GITHUB/jelly-thingy/build
-Build Type=Debug
+Build Type=
 CMake Binary=file:///usr/bin/cmake
 Environment Profile=
 Extra Arguments=
-Install Directory=
+Install Directory=file:///usr/local
+
+[Launch]
+Launch Configurations=Launch Configuration 0
+
+[Launch][Launch Configuration 0]
+Configured Launch Modes=execute
+Configured Launchers=nativeAppLauncher
+Name=demo_bunny
+Type=Native Application
+
+[Launch][Launch Configuration 0][Data]
+Arguments=
+Debugger Shell=
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x00)
+Dependency Action=Build
+Display Demangle Names=true
+Display Static Members=true
+EnvironmentGroup=default
+Executable=file:///home/auralius/polybox/GITHUB/jelly-thingy/demo/build/demo_bunny
+External Terminal=konsole --noclose --workdir %workdir -e %exe
+GDB Path=gdb
+Project Target=
+Remote GDB Config Script=
+Remote GDB Run Script=
+Remote GDB Shell Script=
+Start With=GdbConsole
+Use External Terminal=false
+Working Directory=file:///home/auralius/polybox/GITHUB/jelly-thingy/demo/build
+isExecutable=true
 
 [Project]
 VersionControlSupport=kdevgit
