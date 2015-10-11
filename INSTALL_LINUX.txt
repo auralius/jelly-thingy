@@ -1,0 +1,9 @@
+How to instal on Linux system:
+1. Compile the library.
+   - From terminal, go to lib folder and execute; cmake ..
+   - Next, type: make
+   - If compilation is successfull, you will have: libjelly-thingy.a in lib folder
+
+2. Compile the demos:
+   - From terminal, go to bin folder and execute; cmake ../demo
+   - Next, type: make
