@@ -10,7 +10,7 @@ install(TARGETS demo_bunny RUNTIME DESTINATION bin)
 
 add_library(jelly-thingy STATIC IMPORTED)
  
-set_property(TARGET jelly-thingy PROPERTY IMPORTED_LOCATION /home/auralius/polybox/GITHUB/jelly-thingy/lib/libjelly-thingy.a)
+set_property(TARGET jelly-thingy PROPERTY IMPORTED_LOCATION ../lib/libjelly-thingy.a)
 
 set_target_properties(demo_bunny PROPERTIES COMPILE_FLAGS " -frounding-math")
 
